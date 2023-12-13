@@ -1,11 +1,11 @@
 import requests
 import streamlit as st
 
-VECTARA_API_KEY = st.session_state['api_key']
 
 # Function to perform the Vectara search
 
 def perform_vectara_search(query):
+    VECTARA_API_KEY = st.session_state['api_key']
     VECTARA_ENDPOINT = "https://api.vectara.io:443/v1/query"
     CUSTOMER_ID = st.session_state['customer_id'] # Replace with your customer ID
     CORPUS_ID =  st.session_state['corpus_id']# Replace with your corpus ID
@@ -34,8 +34,8 @@ def perform_vectara_search(query):
                 },
                 "corpusKey": [
                     {
-                        "customerId": st.session_state["customer_id"],
-                        "corpusId": st.session_state["corpus_id"],
+                        "customerId": int(CUSTOMER_ID),
+                        "corpusId": int(CORPUS_ID),
                         "semantics": 0,
                         "metadataFilter": "part.lang = 'eng'",
                             "lexicalInterpolationConfig": {

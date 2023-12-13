@@ -8,12 +8,15 @@ from langchain.chains import ConversationalRetrievalChain
 st.set_page_config('Customer Support', '🔍')
 st.title('Customer Support 🔍')
 
-openai.api_key = st.secrets['OPENAI_API_KEY']
+if 'OPENAI_API_KEY' in st.secrets:
+    openai.api_key = st.secrets['OPENAI_API_KEY']
+else:
+    openai.api_key = st.sidebar.text_input(label='Here goes your OpenAI api key', type='password')
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 try:
-    if st.session_state.vector_store is not None:
+    if 'vector_store' in st.session_state:
 
         llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
         memory = ConversationTokenBufferMemory(

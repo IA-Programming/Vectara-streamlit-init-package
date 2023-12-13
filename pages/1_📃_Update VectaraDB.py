@@ -18,7 +18,7 @@ def clear_temp(folder_path='temp'):
         if os.path.isfile(file_path):
             os.remove(file_path)
 try:
-    if st.session_state.vector_store is not None:
+    if 'vector_store' in st.session_state:
 
         media = st.selectbox('Choose media type:', ['Websites', 'Documents', 'YT Videos'])
 

@@ -1,7 +1,6 @@
 import streamlit as st
 from langchain.vectorstores import Vectara
 from st_components.vectara_search import perform_vectara_search, display_vectara_results
-import json
 
 if "chat_history" not in  st.session_state:
     st.session_state['chat_history'] = []
@@ -9,10 +8,12 @@ if "chat_history" not in  st.session_state:
 st.set_page_config('Home', '📖')
 st.title('VectaServe HomePage 📖')
 msg = st.empty()
-if 'vector_store' not in st.session_state:
+if 'vector_store' not in st.session_state or st.session_state.get('vector_store')==None:
     msg.info('There is no implemented method for credential authentication from Vectara, so ensure that you enter the correct details for this app to work.')
-else:
+elif st.session_state.get('vector_store') and 'vector_store' in st.session_state:
     msg.success('Credentials submitted to Vectara! Try ingest or query endpoints to confirm the connection.')
+
+st.write(st.session_state)
 
 st.markdown('<style>.css-w770g5{\
             width: 100%;}\
@@ -31,7 +32,7 @@ if 'vector_store' not in st.session_state:
         if st.session_state['customer_id'] and st.session_state['corpus_id'] and st.session_state['api_key'] and st.button('login in'):
             st.session_state['vector_store'] = Vectara(st.session_state['customer_id'], st.session_state['corpus_id'], st.session_state['api_key'])
             st.rerun()
-else:
+elif st.session_state.get('vector_store') and 'vector_store' in st.session_state:
     search_term = st.text_input("How may I help you ?", value="",placeholder='Ask your query here')
 
     chat_history = st.session_state.get("chat_history", [])
